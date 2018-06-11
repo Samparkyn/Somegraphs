@@ -20,11 +20,22 @@ function processRawData(rawData) {
     ] = line.replace(/"/g, '').split(' ')
     const [day, hour, minute, second] = datetime.replace(/\[|\]/g, '').split(':')
     const [protocol, protocol_version] = protocolData.split('/')
+    console.log(url)
     
     const dataObject = {
       host,
-      datetime: { day, hour, minute, second },
-      request: { method, url, protocol, protocol_version },
+      datetime: { 
+        day,
+        hour,
+        minute,
+        second
+      },
+      request: { 
+        method,
+        url,
+        protocol,
+        protocol_version
+       },
       response_code,
       document_size
     }
