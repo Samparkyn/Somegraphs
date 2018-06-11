@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 const data = require('../data.json')
+const parsedData = JSON.stringify(data)
 
 app.listen(port, () => {
   console.log("Ready on port:", port);
@@ -16,5 +17,5 @@ app.listen(port, () => {
 
 app.get('/data', function (req, res) {
   res.header("Content-Type",'application/json');
-  res.send(JSON.stringify(data));
+  res.send(parsedData);
 })
