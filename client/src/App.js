@@ -29,41 +29,40 @@ class App extends Component {
   }
 
   calculateMethodPercentages(data){
-    const getRequests = []
-    const postRequests = []
-    const headRequests = []
-    const otherReqs = []
-    const methods = data.map(dataObject => {
-      const request = dataObject.request.method
-      if (request === "GET") {
-        getRequests.push(request)
-      } else if (request === "POST") {
-        postRequests.push(request)
-      } else if (request === "HEAD") {
-        headRequests.push(request)
-      } else {
-        otherReqs.push(request)
+    const dataLength = data.length
+    const distribution = data.reduce((acc, dataPoint) => {
+      const requestMethod = dataPoint.request.method
+      if(acc[requestMethod]) {
+        acc[requestMethod]++
+        return acc
       }
-    })
-    const totalGETReqs = getRequests.length
-    const totalPOSTReqs = postRequests.length
-    const totalHEADReqs = headRequests.length
-    const totalOtherReqs = otherReqs.length
-    const totalReqs = (totalGETReqs + totalPOSTReqs + totalHEADReqs + otherReqs)
-    const getReqPercent = ((totalGETReqs / 47748) * 100).toFixed(2)
-    const postReqPercent = ((totalPOSTReqs / 47748) * 100).toFixed(2)
-    const headReqPercent = ((totalHEADReqs / 47748) * 100).toFixed(2)
-    const otherReqPercent = ((totalOtherReqs / 47748) * 100).toFixed(2)
+      acc[requestMethod] = 1
+      return acc
+    }, {})
+   
+    for (const key in distribution) {
+        distribution[key] = parseFloat(((distribution[key] / dataLength) * 100).toFixed(2))
+      }
+      return distribution
+  }
 
 
-    const totalRequestsObj = {
-      'GET': parseFloat(getReqPercent),
-      'POST': parseFloat(postReqPercent),
-      'HEAD': parseFloat(headReqPercent),
-      'OTHER': parseFloat(otherReqPercent)
+  calculateResCodePercentages(data){
+    const dataLength = data.length
+    const distribution = data.reduce((acc, dataPoint) => {
+      const responseCode = dataPoint.response_code
+      if(acc[responseCode]) {
+        acc[responseCode]++
+        return acc
+      }
+      acc[responseCode] = 1
+      return acc
+    }, {})
+
+    for (const key in distribution) {
+      distribution[key] = parseFloat(((distribution[key] / dataLength) * 100).toFixed(2))
     }
-
-    return totalRequestsObj
+    return distribution
   }
 
   requestsPerMin(data){
@@ -114,7 +113,7 @@ class App extends Component {
         text: 'Distribution of HTTP methods'
     },
     series: [{
-        name: 'Brands',
+        name: 'Request',
         colorByPoint: true,
         data: [{
             name: 'GET',
@@ -135,17 +134,47 @@ class App extends Component {
   }
 
   HTTPCodeDistribution(data) {
-    const distribution = data.reduce((acc, dataPoint) => {
-      const responseCode = dataPoint.response_code
-      if(acc[responseCode]) {
-        acc[responseCode]++
-        return acc
-      }
-      acc[responseCode] = 1
-      return acc
-    }, {})
-    console.log(distribution)
+  const responseCodes = this.calculateResCodePercentages(data)
+  const options = {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+  },
+  title: {
+      text: 'Distribution of Response codes'
+  },
+  series: [{
+      name: 'Response code',
+      colorByPoint: true,
+      data: [{
+          name: '200',
+          y: responseCodes[200],
+      }, {
+          name: '302',
+          y: responseCodes[302],
+      }, {
+          name: '304',
+          y: responseCodes[304],
+      }, {
+          name: '403',
+          y: responseCodes[403],
+      }, {
+          name: '404',
+          y: responseCodes[404],
+      }, {
+          name: '500',
+          y: responseCodes[500],
+      }, {
+          name: '501',
+          y: responseCodes[501]
+      }] 
+    }]
   }
+  return options;
+  }
+    
 
   answerSizeDistribution(data){
 //pie chart
