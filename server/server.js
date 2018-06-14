@@ -8,7 +8,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const data = require('../data.json')
+const data = require('./data.json')
 const parsedData = JSON.stringify(data)
 
 app.listen(port, () => {
