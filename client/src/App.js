@@ -26,12 +26,7 @@ class App extends Component {
   }
 
   requestsPerMin(data){
-    const series = []
     const requestsMap = getRequestsPerMin(data);
-    for (const key in requestsMap) {
-      series.push([key, requestsMap[key]]);
-    }
-
     return {
       chart: {
         type: 'line'
@@ -51,12 +46,12 @@ class App extends Component {
       },
       plotOptions: {
         series: {
-            label: {
-                connectorAllowed: false
-            },
-            pointStart: 0
+          label: {
+            connectorAllowed: false
+          },
+          pointStart: 0
         }
-    },
+      },
       series: [{
         type: 'line',
         data: Object.values(requestsMap),
@@ -115,7 +110,6 @@ class App extends Component {
     }
   }
     
-
   documentSizeDistribution(data){
     const graphData = getSizeDistribution(data)
     return {
@@ -153,28 +147,33 @@ class App extends Component {
 
   render() {
     const { data } = this.state
-    if (!data){
-      return <div>Loading..</div>
+    if (!data) {
+      return (
+        <div className="loading-container">
+          <div className="loader"></div>
+          <p>Loading...</p>
+        </div>
+      )
     }
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+      <div className="app">
         <h1>EPA HTTP Data</h1>
         <div>
           <HighchartsReact
             highcharts={Highcharts}
             options={this.requestsPerMin(data)}
           />
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={this.HTTPMethodDistribution(data)}
-          />
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={this.HTTPCodeDistribution(data)}
-          />
+          <div className="pie-charts">
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={this.HTTPMethodDistribution(data)}
+            />
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={this.HTTPCodeDistribution(data)}
+            />
+          </div>
           <HighchartsReact
             highcharts={Highcharts}
             options={this.documentSizeDistribution(data)}
