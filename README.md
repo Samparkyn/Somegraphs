@@ -15,5 +15,4 @@ or `npm run all` to run the above commands in sequence
 - React app as the frontend
 - Highcharts.js as the charts library
 
-This was a fun little challenge, I enjoyed processing and manipulating the given data.
 Thanks for looking :-)
