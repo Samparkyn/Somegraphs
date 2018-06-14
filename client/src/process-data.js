@@ -21,8 +21,6 @@ export function getRequestsPerMin(data) {
     return acc;
   }, {});
 
-  // const firstMinute = Object.keys(minutesToRequestsMap)[0];
-
   return minutesToRequestsMap;
 }
 

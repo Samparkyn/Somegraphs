@@ -1,28 +1,81 @@
-.App {
+.app {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.pie-charts {
+  display: flex;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.pie-charts > * {
+  width: 50%;
 }
 
-.App-title {
-  font-size: 1.5em;
+.loading-container {
+  margin-top: 20vh;
+  text-align: center;
 }
 
-.App-intro {
-  font-size: large;
+/* https://projects.lukehaas.me/css-loaders/ */
+.loader {
+  font-size: 10px;
+  margin: 10px auto;
+  text-indent: -9999em;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #ffffff;
+  background: -moz-linear-gradient(left, #0066ff 10%, rgba(0,102,255, 0) 42%);
+  background: -webkit-linear-gradient(left, #0066ff 10%, rgba(0,102,255, 0) 42%);
+  background: -o-linear-gradient(left, #0066ff 10%, rgba(0,102,255, 0) 42%);
+  background: -ms-linear-gradient(left, #0066ff 10%, rgba(0,102,255, 0) 42%);
+  background: linear-gradient(to right, #0066ff 10%, rgba(0,102,255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.loader:before {
+  width: 50%;
+  height: 50%;
+  background: #0066ff;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+.loader:after {
+  background: #ffffff;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
